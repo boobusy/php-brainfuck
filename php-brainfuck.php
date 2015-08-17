@@ -1,9 +1,12 @@
 <?php
-
 /**
  *   php-brainfuck parser
  *   <战线> booobusy@gmail.com
+ *   2015-08-17
  */
+
+error_reporting(E_ALL & ~E_NOTICE);
+
 class bfvm {
 
 	private $mem = array();
@@ -12,34 +15,6 @@ class bfvm {
 	private $pos  = 0;
 	private $keys = "<>+-.,[]";
 
-
-	public function parse($code=null){
-	
-		$whilemap = array();
-		$pos = 0;
-
-		while ($code{$pos}) {
-			if(strstr($this->keys,$code{$pos})){		
-
-					$this->code .= $code{$pos};
-
-					if($code{$pos} == '['){
-						$whilemap["$pos"] = "null"; 
-					}
-					if($code{$pos} == ']'){
-						end($whilemap);
-						$key =  key($whilemap);						
-						$this->whilemap["$key"] = $pos; //8=>11;
-						$this->whilemap["$pos"] = $key;
-						array_pop($whilemap);
-
-					}
-			}
-			$pos++;
-		}
-
-		return $this;
-	}
 
 	public function run(){
 		$pc = 0;
@@ -79,15 +54,45 @@ class bfvm {
 				break;
 			}
 			$pc++;
+		}
+		return $this;	
+	}
 
+	public function parse($code=null){
+	
+		$whilemap = array();
+		$pos = 0;
+		$pc  = 0;
+
+		while ($char = $code{$pos++}) {
+			if(strstr($this->keys,$char)){
+					$this->code .= $char;
+
+					if($char == '['){
+						$whilemap[$pc] = 0; 
+					}
+					if($char == ']'){
+						end($whilemap);
+						$key =  key($whilemap);						
+						$this->whilemap[$key] = $pc;
+						$this->whilemap[$pc]  = $key;
+						array_pop($whilemap);
+					}
+				$pc++;
+			}
 		}
 
-
-		return $this;	
+		
+		return $this;
 	}
 
 }
 
+/*
+$_POST['code'] = <<<BFCODE
+	++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+BFCODE;
+*/
 
 if(isset($_POST['code'])){
 	$bfvm = new bfvm;
