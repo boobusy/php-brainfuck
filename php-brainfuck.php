@@ -64,7 +64,7 @@ class bfvm {
 		$pos = 0;
 		$pc  = 0;
 
-		while ($char = $code{$pos++}) {
+		while ($char = $code{$pos++}) { 	//end char E_NOTICE
 			if(strstr($this->keys,$char)){
 					$this->code .= $char;
 
