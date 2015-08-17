@@ -1,7 +1,7 @@
 <?php
 
 /**
- *	 php-brainfuck parser
+ *   php-brainfuck parser
  *   <战线> booobusy@gmail.com
  */
 class bfvm {
@@ -94,21 +94,3 @@ if(isset($_POST['code'])){
 	$bfvm ->parse($_POST['code']) -> run();
 	return;
 }
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>BF 解释器 </title>
-</head>
-<body>
-
-	<form action="#" method="post">
-		<textarea style="width:500px; height:350px" name="code"></textarea>
-		<br/>
-		<input type="submit" name="submit" value="submit"/>	
-	</form>
-
-</body>
-</html>
